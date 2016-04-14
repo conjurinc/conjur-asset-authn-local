@@ -13,16 +13,17 @@ module Conjur
   end
 end
 
-if defined?(Conjur::Authn) and Conjur::Authn.respond_to?(:env_credentials)
+if defined?(Conjur::Authn) && Conjur::Authn.respond_to?(:env_credentials)
   module Conjur
     module Authn
-      alias default_env_credentials env_credentials
-
-      def env_credentials
-        if Conjur.configuration.use_authn_local && File.exists?(Conjur::API::AUTHN_LOCAL_SOCKET) && (login = ENV['CONJUR_AUTHN_LOGIN'])
-          [ login ]
-        else
-          default_env_credentials
+      class << self
+        alias default_env_credentials env_credentials
+        def env_credentials
+          if Conjur.configuration.use_authn_local && File.exists?(Conjur::API::AUTHN_LOCAL_SOCKET) && (login = ENV['CONJUR_AUTHN_LOGIN'])
+            [login]
+          else
+            default_env_credentials
+          end
         end
       end
     end
