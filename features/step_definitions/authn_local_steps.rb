@@ -23,3 +23,8 @@ Then(/^I can list Conjur resources$/) do
   resources = conjur.resources
   expect(resources.map(&:resource_id)).to include("cucumber:service:pubkeys-1.0/public-keys")
 end
+
+
+When(/^the Conjur username is not provided in the environment$/) do
+  ENV.delete 'CONJUR_AUTHN_LOGIN'
+end
