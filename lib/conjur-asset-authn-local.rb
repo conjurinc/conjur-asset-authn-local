@@ -7,7 +7,7 @@ module Conjur
     class << self
       # Allow the API key to be nil.
       def new_from_key(username, api_key = nil, remote_ip = nil)
-        self.new username, api_key || "api-key-is-not-required-for-local-authentication", remote_ip
+        self.new.init_from_key(username, api_key || "api-key-is-not-required-for-local-authentication", remote_ip)
       end
     end
   end
